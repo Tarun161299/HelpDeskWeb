@@ -1,0 +1,66 @@
+<header class="header">
+    <div class="mid-header pt-1 pb-1">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-3">
+                    <img class="img-fluid logo" src="assets/images/eCounselling.png">
+                </div>
+                <div class="col-sm-6">
+                    <h4 class="text-center fs-6 m-0 pt-3">{{headers[0].Hindi}}</h4>
+                    <h1 class="text-center fs-4 m-0 pb-2">{{headers[1].English}}</h1>
+                </div>
+                <div class="col-sm-3 py-2">
+                    <img class="img-fluid pull-right" src="assets/images/nic-custom.png">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--close mid-header-->
+    <nav class="navbar navbar-expand-lg" id="myHeader">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item ms-0">
+                        <!-- routerLink="/boardadmindashboard" -->
+                        <a class="nav-link" routerLinkActive="active" aria-current="page" (click)="onclickHome()">
+                            <i class="fa fa-home" aria-hidden="true"></i> Home
+                        </a>
+                    </li>
+                    <!-- <li class="nav-item"> <a class="nav-link" href="#">Contact Us</a> </li> -->
+                </ul>
+            </div>
+            <form class="d-flex">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarsidedropmenu" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false" Match=@NavLinkMatch.All>
+                            {{this.userName}}
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarsidedropmenu">
+                            <li>
+                                <a class="dropdown-item" routerLink="/myprofile" routerLinkActive="active">
+                                    <i class="fa fa-user"></i> My Profile
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" routerLink="/changepassword" routerLinkActive="active">
+                                    <i class="fa fa-lock"></i> Change Password
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" (click)="onSignOutClick()">
+                                    <i class="fa fa-sign-out"></i> Signout
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </nav>
+</header>
+<!------header---->

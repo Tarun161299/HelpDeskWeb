@@ -1,0 +1,80 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="card-form shadow mt-4 pt-0 sideMenu" style="min-height: 313px;">
+                <app-side-navbar></app-side-navbar>
+            </div>
+        </div>
+        <div class="col-sm-9">
+            <div class="card-form shadow mt-4 pt-3 p-4 leftSideContent">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p class="fw-bold pb-1">Tickets
+                        </p>
+                        <form autocomplete="off" [formGroup]="ticketfilter">
+                            <div class="row my-3">
+                                <div class="col-sm-6 mb-2">
+                                    <select formControlName="boardDropdown" class="form-select"
+                                        (change)="OnchangeBoard($event)">
+                                        <option value="0" selected>--Select Board--</option>
+                                        <option *ngFor="let board of Boardsdata" value={{board.projectId}}>
+                                            {{board.projectName}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-3 mb-2">
+                                    <select formControlName="progressStatus" class="form-select"
+                                        (change)="OnchangeProgressStatus($event)">
+                                        <option value="0" selected>--Select Progress Status--</option>
+                                        <option *ngFor="let status of statusData" value={{status.id}}>
+                                            {{status.description}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-3 mb-2">
+                                    <select formControlName="AssignStatus" class="form-select"
+                                        (change)="OnchangeAssignStatus($event)">
+                                        <option value="0" selected>--Select Assignment Status--</option>
+                                        <option *ngFor="let assignStatus of AssignedStatusData"
+                                            value={{assignStatus.id}}>{{assignStatus.description}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="table-responsive">
+                            <table id="ticket" class="row-border hover table-sm w-100" *ngIf="ticketdata.length>0">
+                                <thead>
+                                    <tr class="bg-primary text-white">
+                                        <th>Sr.No.</th>
+                                        <th>Ticket</th>
+                                        <th>End Date</th>
+                                        <th>Request Categories</th>
+                                        <th>Assigned To</th>
+                                        <th>Assigned From</th>
+                                        <th>Progress Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let data of ticketdata let i=index">
+                                        <td>{{i+1}}</td>
+                                        <td>
+                                            <a class="btn btn-link"
+                                                (click)="showticketDetail(data)">{{data.subject}}</a>
+                                            <sup><i class={{data.priorityTest}}></i></sup>
+                                        </td>
+                                        <td>{{data.endDate|ddMmYYYYDate}}</td>
+                                        <td>{{data.sectionDescription}}</td>
+                                        <td>{{data.assignTo}}</td>
+                                        <td>{{data.modifiedBy}}</td>
+                                        <td>{{data.taskStatusDescription}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div *ngIf="ticketdata.length==0">
+                                <strong class="w-50 text-center"> No Records Found</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

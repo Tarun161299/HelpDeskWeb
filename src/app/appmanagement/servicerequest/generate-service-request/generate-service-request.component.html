@@ -1,0 +1,174 @@
+
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">View PDf</h4>
+        <button type="button" class="btn-close" aria-label="Close"
+            (click)="d('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <div class="file-priview-container">
+            <ngx-extended-pdf-viewer 
+                [handTool]="false" [base64Src]="selectedFileB64"
+                [height]="'60vh'" [showHandToolButton]="true">
+            </ngx-extended-pdf-viewer>
+            
+        </div>
+    </div>
+</ng-template>
+<ng-template #image let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Image</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <img height="200px" [src]="imgSource" alt="Image Source">
+    </div>
+</ng-template>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="card-form shadow mt-4 pt-0 sideMenu" style="min-height: 313px;">
+                <app-side-navbar></app-side-navbar>
+            </div>
+        </div>
+    
+        <div class="col-sm-9">
+            <div class="card-form shadow mt-4 pt-3 p-4 leftSideContent">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p class="fw-bold pb-1">
+                            Generate Service Request 
+                        </p>
+                    </div>
+                </div>
+                <form class="row g-3 mt-2" [formGroup]="serviceRequestForm">
+
+                    <div class="col-sm-12">
+                        <label class="form-label fw-bold" for="boardName">Select Board </label>
+                        <select class="form-select" name="boardName" type="text" id="boardName" formControlName="boardName" placeholder="Select Board"
+                        (change)="selectBoard($event)"  
+                        [ngClass]="{ 'is-invalid':(serviceRequestFormControl['boardName'].errors && (serviceRequestFormControl['boardName'].dirty || serviceRequestFormControl['boardName'].touched || submitted  ))}">
+                            <option value="">Select Board</option>
+                            <option *ngFor="let projects of zmstProjects" value={{projects.projectId}}>
+                                {{projects.projectName}}
+                            </option>
+                        </select>
+                        <span class="text-danger"
+                                        *ngIf="(serviceRequestFormControl['boardName'].touched || submitted) && serviceRequestFormControl['boardName'].errors?.['required']">
+                                        Board is required
+                                    </span>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="form-label fw-bold" for="title">Title </label>
+                        <input class="form-control" type="text" 
+                        id="title" formControlName="title" name="title" placeholder="Enter Title"
+                                        [ngClass]="{ 'is-invalid':(serviceRequestFormControl['title'].errors && (serviceRequestFormControl['title'].dirty || serviceRequestFormControl['title'].touched || submitted  ))}"/>
+                                        <span class="text-danger"
+                                        *ngIf="(serviceRequestFormControl['title'].touched || submitted) && serviceRequestFormControl['title'].errors?.['required']">
+                                        Title is required
+                                    </span>
+                                    </div>
+                   
+                    <div class="col-sm-12">
+                        <label class="form-label fw-bold" for="description">Description</label>
+                        <textarea class="form-control"
+                        id="description" formControlName="description" name="description" placeholder="Enter description"
+                        [ngClass]="{ 'is-invalid':(serviceRequestFormControl['description'].errors && (serviceRequestFormControl['description'].dirty || serviceRequestFormControl['description'].touched || submitted  ))}"></textarea>
+                        <span class="text-danger"
+                        *ngIf="(serviceRequestFormControl['description'].touched || submitted) && serviceRequestFormControl['description'].errors?.['required']">
+                        Description is required
+                    </span>
+                    </div>
+                    <div *ngIf="fileAttach"  class="col-sm-10">
+                        <label class="form-label fw-bold" >Document (if any) </label>
+                        <input class="form-control" type="file" (change)="handleFileInput($event)">
+                        <span class="text-danger" *ngIf="fileSizeValidation>5">Please
+                            file should be smaller than 500 MB</span>
+                    </div>
+                    <div class="col-sm-2" *ngIf="data.length>0">
+                        <label class="form-label fw-bold" >View </label>
+                            <a class="btn btn-warning btn-sm pull-right" (click)="btnPreviewPdf()" title="View Attachment">
+                                <i class="fa fa-paperclip"></i>
+                            </a>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label fw-bold" for="priority">Priority </label>
+                        <select name="priority" id="priority" class="form-select"
+                         formControlName="priority" name="priority" placeholder="Enter priority" (change)="selectPriority($event)"
+                        [ngClass]="{ 'is-invalid':(serviceRequestFormControl['priority'].errors && (serviceRequestFormControl['priority'].dirty || serviceRequestFormControl['priority'].touched || submitted  ))}">
+                        <option value="">--select--</option>
+                        <option *ngFor="let priority of MdPriority" value={{priority.priorityId}}>
+                            {{priority.priorityName}}</option>
+                        
+                        </select>
+                        <span class="text-danger"
+                        *ngIf="(serviceRequestFormControl['priority'].touched || submitted) && serviceRequestFormControl['priority'].errors?.['required']">
+                        Priority is required
+                    </span>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label fw-bold" for="requestCategories">Request Category</label>
+                        <ng-multiselect-dropdown [formControl]="serviceRequestControl.requestCategoriesSelected" 
+                        [ngClass]="{ 'is-invalid':(serviceRequestControl['requestCategoriesSelected'].errors && (serviceRequestControl['requestCategoriesSelected'].dirty || serviceRequestControl['requestCategoriesSelected'].touched || submitted  ))}"
+                                            [settings]="dropdownSettings" [data]="mdSection" [disabled]="DisableMUltiselect"
+                                            (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)"
+                                            (onDeSelect)="onItemDeSelect($event)" (onDeSelectAll)="onUnSelectAll()">
+                                        </ng-multiselect-dropdown>  
+                                        <!-- <ng-multiselect-dropdown [formControl]="serviceRequestFormControl.requestCategories" 
+                        [ngClass]="{ 'is-invalid':(serviceRequestFormControl['requestCategories'].errors && (serviceRequestFormControl['requestCategories'].dirty || serviceRequestFormControl['requestCategories'].touched || submitted  ))}"
+                                            [settings]="dropdownSettings" [data]="mdSection" 
+                                            (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)"
+                                            (onDeSelect)="onItemDeSelect($event)" (onDeSelectAll)="onUnSelectAll()">
+                                        </ng-multiselect-dropdown>  -->
+                        <!-- <select name="requestCategories" id="requestCategories" class="form-select" (change)="selectRequestCategory($event)"
+                        formControlName="requestCategories" name="requestCategories" placeholder="Enter requestCategories"
+                        [ngClass]="{ 'is-invalid':(serviceRequestFormControl['requestCategories'].errors && (serviceRequestFormControl['requestCategories'].dirty || serviceRequestFormControl['requestCategories'].touched || submitted  ))}">
+                            <option value="">--select--</option>
+                            <option *ngFor="let section of mdSection" value={{section.sectionId}}>
+                                {{section.section}}
+                            </option>
+                        </select> -->
+                        <!-- <span class="text-danger"
+                        *ngIf="(serviceRequestFormControl['requestCategories'].touched || submitted) && serviceRequestFormControl['requestCategories'].errors?.['required']">
+                        Request Categories is required
+                    </span> -->
+                    <span class="text-danger"
+                    *ngIf="(serviceRequestControl['requestCategoriesSelected'].touched || submitted) && serviceRequestControl['requestCategoriesSelected'].errors?.['required']">
+                    Request Categories is required
+                </span>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label fw-bold" for="resolutionDate">Resolution Date</label>
+                        <input class="form-control" type="date"  [min]="resolutionDate"
+                        id="resolutionDate" formControlName="resolutionDate" name="resolutionDate" placeholder="Enter Resolution Date"
+                        [ngClass]="{ 'is-invalid':(serviceRequestFormControl['resolutionDate'].errors && (serviceRequestFormControl['resolutionDate'].dirty || serviceRequestFormControl['resolutionDate'].touched || submitted  ))}"/>
+                        <span class="text-danger"
+                        *ngIf="(serviceRequestFormControl['resolutionDate'].touched || submitted) && serviceRequestFormControl['resolutionDate'].errors?.['required']">
+                        Resolution Date is required
+                    </span>
+                    </div>
+                    <div *ngIf="Status" class="col-sm-6">
+                        <label class="form-label fw-bold" for="status">Status</label>
+                        <select name="" id="status" class="form-select"  (change)="selectStatus($event)"
+                        id="status" formControlName="status" name="status" placeholder="Enter Resolution Date"
+                        [ngClass]="{ 'is-invalid':(serviceRequestFormControl['status'].errors && (serviceRequestFormControl['status'].dirty || serviceRequestFormControl['status'].touched || submitted  ))}"
+                        >
+                            <option value="">--select--</option>
+                            <option *ngFor="let status of mdStatus" value={{status.id}}>
+                                {{status.description}}
+                            </option>
+                        </select>
+                        <span class="text-danger"
+                        *ngIf="(serviceRequestFormControl['status'].touched || submitted) && serviceRequestFormControl['status'].errors?.['required']">
+                        Status is required
+                    </span>
+                    </div>                                                        
+                    <div class="col-sm-12 text-center mt-4">
+                        <button class="btn btn-primary" [hidden]="hdnSubmit" (click)="onSubmit()">Service Request</button>
+                        <button *ngIf="Updatebtn" class="btn btn-warning ms-2" [hidden]="hdnUpdate" (click)="onUpdate()">Update  Service Request</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

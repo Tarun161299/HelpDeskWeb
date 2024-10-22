@@ -1,0 +1,68 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card-form shadow mt-4 mb-4">
+                <div class="row">
+                    <div class="col-sm-6 border-end border-2 ps-5 p-2 pt-5 mt-5">
+                        <div class="row">
+                            <div class="col-sm-12 text-center">
+                                <!-- <button (click)="btnClick()" class="btn btn-primary btn-lg mt-0 ms-2">
+                                    Login with EIS
+                                </button> -->
+                            </div>
+                        </div>
+                        <div class="col-sm-12 text-center">
+                            <form ngNoForm method="post" action={{action}}>
+                                <input type="hidden" name="response_type"  [(ngModel)]="response_type">
+                                <input type="hidden" name="client_Id"  [(ngModel)]="client_Id">
+                                <input type="hidden" name="redirect_uri"  [(ngModel)]="redirect_uri">
+                                <input type="hidden" name="scope" [(ngModel)]="scope">
+                                <input type="hidden" name="state"  [(ngModel)]="state">
+                            <input type="submit" Text="Login with EIS" name="submit" value="Login with EIS"  class="btn btn-danger  btn-lg mt-4 ms-2">
+                            </form>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 text-center">
+                                <a routerLink="/authotp" class="btn btn-danger  btn-lg mt-4 ms-2">
+                                    Login with Mobile OTP
+                                </a>
+                            </div>
+                        </div>
+                        <!-- <div class="row mt-5">
+                            <div class="col-sm-12 text-end">
+                                <a routerLink="/signup" class="btn btn-secondary mt-5">
+                                    Signup
+                                </a>
+                                <a class="btn btn-info text-white mt-5 ms-2" routerLink=""
+                                    style="color:Black;font-weight:bold;">Forgot Password ?</a>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="col-sm-6 logininstructionBg">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h4>
+                                    Instructions
+                                </h4>
+                                <ul class="list-unstyled">
+                                    <li>For ease of user onboarding , e-Counselling has now been integrated with NIC Single Sign-On Platform (ESI). Now, users will be authenticated through ESI(SSO).</li>
+                                    <li>Users can onboard themselves through OTP as well.</li>
+                                    <li>Confidentiality of Password is solely responsibility of the user and all care must be taken to protect the password.</li>
+                                    <li>Users are advised to keep changing the Password at frequent intervals.
+                                        Never share your password and do not respond to any mail which asks you for your Login-ID/Password.</li>
+                                    <li>It is strongly recommended that the OTP sent to the applicant for any activity like reset password etc. must not be shared with anyone.</li>
+                                    <li>For security reasons, after finishing your work, click the LOGOUT button and close all the windows related to your session.</li>
+                                </ul>
+                                <p>
+                                    <strong>Caution : </strong> Your IP address {{ipAddress}} is being monitored for security purpose.?
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

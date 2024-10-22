@@ -1,0 +1,204 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="card-form shadow mt-4 pt-0 sideMenu" style="min-height: 313px;">
+                <app-side-navbar></app-side-navbar>
+            </div>
+        </div>
+        <ng-template #content let-c="close" let-d="dismiss">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title">View PDf</h4>
+                <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+            </div>
+            <div class="modal-body">
+                <div class="file-priview-container">
+                    <ngx-extended-pdf-viewer [handTool]="false" [base64Src]="selectedFileB64" [height]="'60vh'"
+                        [showHandToolButton]="true">
+                    </ngx-extended-pdf-viewer>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #image let-c="close" let-d="dismiss">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title">Image</h4>
+                <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+            </div>
+            <div class="modal-body">
+                <img height="200px" [src]="imgSource" alt="Image Source">
+            </div>
+        </ng-template>
+        <div class="col-sm-9">
+            <form autocomplete="off" [formGroup]="GenerateTicketForm">
+                <div class="card-form shadow mt-4 pt-3 p-4 leftSideContent">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <p class="fw-bold pb-1">
+                                Generate ticket
+                            </p>
+                            <small class="d-block my-2 text-muted">[{{TicketDetails.boardName}}]</small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <p class="fw-bold pb-1">
+                                Service Request
+                            </p>
+                            <small class="d-block my-2 text-muted">[{{subjectOfService}}]</small>
+                        </div>
+                    </div>
+                    <div class="row g-3 mt-2">
+                        <div class="col-sm-12">
+                            <label class="form-label fw-bold">Title </label>
+                            <input formControlName="title"
+                                [ngClass]="{ 'is-invalid':(GenerateTicketFormControl?.['title'].errors 
+                        && (GenerateTicketFormControl?.['title'].dirty || GenerateTicketFormControl?.['title'].touched || submitted  ))}"
+                                class="form-control" type="text">
+                            <span class="invalid-feedback"
+                                *ngIf="(GenerateTicketFormControl?.['title'].touched || submitted) && GenerateTicketFormControl?.['title'].errors?.['required']">
+                                required.
+                            </span>
+                        </div>
+                        <!-- <div class="col-sm-12">
+                        <label class="form-label fw-bold">Service Request </label>
+                        <input formControlName="serviceRequest" class="form-control"
+                        [ngClass]="{ 'is-invalid':(GenerateTicketFormControl?.['serviceRequest'].errors 
+                        && (GenerateTicketFormControl?.['serviceRequest'].dirty || GenerateTicketFormControl?.['serviceRequest'].touched || submitted  ))}"
+                         type="text" value="Service Request Title" >
+                         <span class="invalid-feedback"
+                         *ngIf="(GenerateTicketFormControl?.['serviceRequest'].touched || submitted) && GenerateTicketFormControl?.['serviceRequest'].errors?.['required']">
+                        required.
+                     </span>
+                    </div> -->
+                        <div class="col-sm-12">
+                            <label class="form-label fw-bold">Description</label>
+                            <textarea formControlName="Description" class="form-control"
+                                [ngClass]="{ 'is-invalid':(GenerateTicketFormControl?.['Description'].errors 
+                        && (GenerateTicketFormControl?.['Description'].dirty || GenerateTicketFormControl?.['Description'].touched || submitted  ))}"></textarea>
+                            <span class="invalid-feedback"
+                                *ngIf="(GenerateTicketFormControl?.['Description'].touched || submitted) && GenerateTicketFormControl?.['Description'].errors?.['required']">
+                                required.
+                            </span>
+                        </div>
+
+                        <div *ngIf="showUpload" class="col-sm-4">
+                            <label class="form-label fw-bold">Add Attachment </label>
+                            <input formControlName="AddAttachment" (change)="handleFileInput($event)"
+                                class="form-control"
+                                [ngClass]="{ 'is-invalid':(GenerateTicketFormControl?.['AddAttachment'].errors 
+                        && (GenerateTicketFormControl?.['AddAttachment'].dirty || GenerateTicketFormControl?.['AddAttachment'].touched || submitted  ))}"
+                         type="file">
+                         <span class="invalid-feedback"
+                        *ngIf="(GenerateTicketFormControl?.['AddAttachment'].touched || submitted) && GenerateTicketFormControl?.['AddAttachment'].errors?.['required']">
+                       required.
+                    </span>
+                    <span class="text-danger" *ngIf="fileSizeValidation>5">Please
+                        file should be smaller than 500 MB</span>
+                    </div>
+                    <div class="col-sm-2" *ngIf="data.length>0">
+                        <label class="form-label fw-bold" >View Attachment </label>
+                            <a class="btn btn-warning btn-sm pull-right" (click)="btnPreviewPdf()" title="View Attachment">
+                                <i class="fa fa-paperclip"></i>
+                            </a>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label fw-bold">Progress Status </label>
+                            <select formControlName="ProgressStatus" name="" id="" class="form-select"
+                                [ngClass]="{ 'is-invalid':(GenerateTicketFormControl?.['ProgressStatus'].errors 
+                        && (GenerateTicketFormControl?.['ProgressStatus'].dirty || GenerateTicketFormControl?.['ProgressStatus'].touched || submitted  ))}">
+                                <option value="">--select--</option>
+                                <option *ngFor="let status of MDStatusdata" value={{status.id}}>{{status.description}}
+                                </option>
+
+                            </select>
+                            <span class="invalid-feedback"
+                                *ngIf="(GenerateTicketFormControl?.['ProgressStatus'].touched || submitted) && GenerateTicketFormControl?.['ProgressStatus'].errors?.['required']">
+                                required.
+                            </span>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label fw-bold">Request Category</label>
+                            <select formControlName="requestCategory" name="" id="" class="form-select"
+                                [ngClass]="{ 'is-invalid':(GenerateTicketFormControl?.['requestCategory'].errors 
+                        && (GenerateTicketFormControl?.['requestCategory'].dirty || GenerateTicketFormControl?.['requestCategory'].touched || submitted  ))}">
+                                <option value="">--select--</option>
+                                <option *ngFor="let Section of mdSection" value={{Section.sectionId}}>
+                                    {{Section.section}}</option>
+
+                            </select>
+                            <span class="invalid-feedback"
+                                *ngIf="(GenerateTicketFormControl?.['requestCategory'].touched || submitted) && GenerateTicketFormControl?.['requestCategory'].errors?.['required']">
+                                required.
+                            </span>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label fw-bold">Priority </label>
+                            <select formControlName="priority" name="" id="" class="form-select"
+                                [ngClass]="{ 'is-invalid':(GenerateTicketFormControl?.['priority'].errors 
+                        && (GenerateTicketFormControl?.['priority'].dirty || GenerateTicketFormControl?.['priority'].touched || submitted  ))}">
+                                <option value="">--select--</option>
+                                <option *ngFor="let priority of MDPrioritydata" value={{priority.priorityId}}>
+                                    {{priority.priorityName}}</option>
+
+                            </select>
+                            <span class="invalid-feedback"
+                                *ngIf="(GenerateTicketFormControl?.['priority'].touched || submitted) && GenerateTicketFormControl?.['priority'].errors?.['required']">
+                                required.
+                            </span>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label fw-bold">Assigned To </label>
+                            <select formControlName="assignedTo" name="" id=""
+                                [ngClass]="{ 'is-invalid':(GenerateTicketFormControl?.['assignedTo'].errors 
+                        && (GenerateTicketFormControl?.['assignedTo'].dirty || GenerateTicketFormControl?.['assignedTo'].touched || submitted  ))}"
+                                class="form-select">
+                                <option value="">--select--</option>
+                                <option *ngFor="let user of UsersRoledata" value={{user.userId}}>{{user.userId}}
+                                </option>
+
+                            </select>
+                            <span class="invalid-feedback"
+                                *ngIf="(GenerateTicketFormControl?.['assignedTo'].touched || submitted) && GenerateTicketFormControl?.['assignedTo'].errors?.['required']">
+                                required.
+                            </span>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label fw-bold">Start Date</label>
+                            <input formControlName="startDate" class="form-control" (change)="onSelectStartDate($event)"
+                                [ngClass]="{ 'is-invalid':(GenerateTicketFormControl?.['startDate'].errors 
+                        && (GenerateTicketFormControl?.['startDate'].dirty || GenerateTicketFormControl?.['startDate'].touched || submitted  ))}"
+                                type="date">
+                            <span class="invalid-feedback"
+                                *ngIf="(GenerateTicketFormControl?.['startDate'].touched || submitted) && GenerateTicketFormControl?.['startDate'].errors?.['required']">
+                                required.
+                            </span>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label fw-bold">End Date</label>
+                            <input formControlName="endDate" class="form-control" [min]="currentDate"
+                                (change)="onSelectEndDate()"
+                                [ngClass]="{ 'is-invalid':(GenerateTicketFormControl?.['endDate'].errors 
+                        && (GenerateTicketFormControl?.['endDate'].dirty || GenerateTicketFormControl?.['endDate'].touched || submitted  ))}"
+                                type="date">
+                            <span class="invalid-feedback"
+                                *ngIf="(GenerateTicketFormControl?.['endDate'].touched || submitted) && GenerateTicketFormControl?.['endDate'].errors?.['required']">
+                                required.
+                            </span>
+                            <span class="text-danger" *ngIf="(error.isError)">
+                                {{ error.errorMessage }}
+                            </span>
+                            
+                        </div>
+                        <div class="col-sm-12 text-center">
+                            <button [hidden]="generate" class="btn btn-primary" (click)="GenerateTicket()">Generate
+                                Ticket</button>
+                            <button [hidden]="update" class="btn btn-warning ms-2" (click)="updateTicket()">Update
+                                Ticket</button>
+                            <button [hidden]="update" *ngIf="role=='ProjectManager'" class="btn btn-danger ms-2"
+                                (click)="onDelete()">Delete Ticket</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

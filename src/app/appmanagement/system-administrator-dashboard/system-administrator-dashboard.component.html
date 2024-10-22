@@ -1,0 +1,238 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="card-form shadow mt-4 pt-0 sideMenu" style="min-height: 313px;">
+                <app-side-navbar></app-side-navbar>
+            </div>
+        </div>
+        <div class="col-sm-9">
+            <div *ngIf="ServicedashBoard" class="card-form shadow mt-4 pb-2 p-4">
+                <p class="fw-bold pb-2">
+                    Service Request Summary
+                </p>
+                <div class="row row-sm">
+                    <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12 mb-4">
+                        <a routerLink="/servicerequestlist/AL">
+                            <div class="card bg-primary-gradient">
+                                <div class="px-3 pt-3 pb-2">
+                                    <h6 class="mb-3 tx-12 text-white">Total</h6>
+                                    <div class="pb-0 mt-0">
+                                        <div class="d-flex">
+                                            <h4 class="tx-20 fw-bold mb-1 text-white">{{
+                                                StatusCount.statusDetail[0].return+
+                                                StatusCount.statusDetail[0].accepted+
+                                                StatusCount.statusDetail[0].closed+
+                                                StatusCount.statusDetail[0].submitted
+                                                +
+                                                StatusCount.statusDetail[0].reject+
+                                                StatusCount.statusDetail[0].discard}}</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12 mb-4">
+                        <a routerLink="/servicerequestlist/SA">
+                            <div class="card bg-danger-gradient">
+                                <div class="px-3 pt-3 pb-2">
+                                    <h6 class="mb-3 tx-12 text-white">Accepted</h6>
+                                    <div class="pb-0 mt-0">
+                                        <div class="d-flex">
+                                            <h4 class="tx-20 fw-bold mb-1 text-white">{{StatusCount.statusDetail[0].accepted+0}}</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12 mb-4">
+                        <a routerLink="/servicerequestlist/ST">
+                            <div class="card bg-success-gradient">
+                                <div class="px-3 pt-3 pb-2">
+                                    <h6 class="mb-3 tx-12 text-white">Returned</h6>
+                                    <div class="pb-0 mt-0">
+                                        <div class="d-flex">
+                                            <h4 class="tx-20 fw-bold mb-1 text-white">{{StatusCount.statusDetail[0].return+0}}</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12 mb-4">
+                        <a routerLink="/servicerequestlist/SC">
+                            <div class="card bg-warning-gradient">
+                                <div class="px-3 pt-3 pb-2">
+                                    <h6 class="mb-3 tx-12 text-white">Closed</h6>
+                                    <div class="pb-0 mt-0">
+                                        <div class="d-flex">
+                                            <h4 class="tx-20 fw-bold mb-1 text-white">{{StatusCount.statusDetail[0].closed+0}}</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div  class="card-form shadow mt-4 pb-2 p-4 pt-2">
+                <p class="fw-bold fs-4 mb-1 mt-1">Ticket Summary
+                </p>
+                <div  *ngIf="TicketSummarydashBoard" class="card-form shadow mt-2 pb-2 p-4">
+                    <p class="fw-bold pb-2">Assignment Summary
+                    </p>
+                    <div class="row row-sm">
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-xm-12 mb-4">
+                            <a (click)="OnAssignTicket()">
+                                <div class="card bg-primary-gradient">
+                                    <div class="px-3 pt-3 pb-2">
+                                        <h6 class="mb-3 tx-12 text-white">Total</h6>
+                                        <div class="pb-0 mt-0">
+                                            <div class="d-flex">
+                                                <h4 class="tx-20 fw-bold mb-1 text-white">{{StatusCount.statusDetail[0].totalTicket+StatusCount.statusDetail[0].unAssigned}}</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-xm-12 mb-4">
+                            <a (click)="onAssign()">
+                                <div class="card bg-danger-gradient">
+                                    <div class="px-3 pt-3 pb-2">
+                                        <h6 class="mb-3 tx-12 text-white">Assigned</h6>
+                                        <div class="pb-0 mt-0">
+                                            <div class="d-flex">
+                                                <h4 class="tx-20 fw-bold mb-1 text-white">{{StatusCount.statusDetail[0].taskClosed+
+                                                    StatusCount.statusDetail[0].needClarification+
+                                                    StatusCount.statusDetail[0].needHelp+
+                                                    StatusCount.statusDetail[0].alreadyCompleted+
+                                                    StatusCount.statusDetail[0].tkReturn
+                                                +StatusCount.statusDetail[0].progress}}</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-xm-12 mb-4">
+                            <a (click)="unAssign()">
+                                <div class="card bg-success-gradient">
+                                    <div class="px-3 pt-3 pb-2">
+                                        <h6 class="mb-3 tx-12 text-white">Unassigned</h6>
+                                        <div class="pb-0 mt-0">
+                                            <div class="d-flex">
+                                                <h4 class="tx-20 fw-bold mb-1 text-white">{{StatusCount.statusDetail[0].totalTicket+StatusCount.statusDetail[0].unAssigned-StatusCount.statusDetail[0].taskClosed-
+                                                    StatusCount.statusDetail[0].needClarification-
+                                                    StatusCount.statusDetail[0].needHelp-
+                                                    StatusCount.statusDetail[0].alreadyCompleted-
+                                                    StatusCount.statusDetail[0].tkReturn
+                                                -StatusCount.statusDetail[0].progress}}</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-form shadow mt-4 pb-2 p-4">
+                    <p class="fw-bold pb-2">Progress Summary
+                    </p>
+                    <div class="row row-sm">
+                        <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12 mb-4">
+                            <a (click)="onAssign()">
+                                <div class="card bg-primary-gradient">
+                                    <div class="px-3 pt-3 pb-2">
+                                        <h6 class="mb-3 tx-12 text-white">Total</h6>
+                                        <div class="pb-0 mt-0">
+                                            <div class="d-flex">
+                                                <h4 class="tx-20 fw-bold mb-1 text-white">{{StatusCount.statusDetail[0].assigned+
+                                                    StatusCount.statusDetail[0].needClarification+
+                                                    StatusCount.statusDetail[0].needHelp+
+                                                    StatusCount.statusDetail[0].alreadyCompleted+
+                                                    StatusCount.statusDetail[0].tkReturn+
+                                                    StatusCount.statusDetail[0].progress}}</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12 mb-4">
+                            <a (click)="Inprogress()">
+                                <div class="card bg-danger-gradient">
+                                    <div class="px-3 pt-3 pb-2">
+                                        <h6 class="mb-3 tx-12 text-white">Inprogress</h6>
+                                        <div class="pb-0 mt-0">
+                                            <div class="d-flex">
+                                                <h4 class="tx-20 fw-bold mb-1 text-white">{{StatusCount.statusDetail[0].progress+0}}</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12 mb-4">
+                            <a (click)="ClarificationRq()">
+                                <div class="card bg-success-gradient">
+                                    <div class="px-3 pt-3 pb-2">
+                                        <h6 class="mb-3 tx-12 text-white">Clarification Rquired</h6>
+                                        <div class="pb-0 mt-0">
+                                            <div class="d-flex">
+                                                <h4 class="tx-20 fw-bold mb-1 text-white">{{StatusCount.statusDetail[0].needClarification+0}}</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12 mb-4">
+                            <a (click)="Help()">
+                                <div class="card bg-warning-gradient">
+                                    <div class="px-3 pt-3 pb-2">
+                                        <h6 class="mb-3 tx-12 text-white">Need Help</h6>
+                                        <div class="pb-0 mt-0">
+                                            <div class="d-flex">
+                                                <h4 class="tx-20 fw-bold mb-1 text-white">{{StatusCount.statusDetail[0].needHelp+0}}</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12 mb-4">
+                            <a (click)="Completed()">
+                                <div class="card bg-warning-gradient">
+                                    <div class="px-3 pt-3 pb-2">
+                                        <h6 class="mb-3 tx-12 text-white">Already Completed</h6>
+                                        <div class="pb-0 mt-0">
+                                            <div class="d-flex">
+                                                <h4 class="tx-20 fw-bold mb-1 text-white">{{StatusCount.statusDetail[0].alreadyCompleted+0}}</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12 mb-4">
+                            <a (click)="Returned()">
+                                <div class="card bg-warning-gradient">
+                                    <div class="px-3 pt-3 pb-2">
+                                        <h6 class="mb-3 tx-12 text-white">Returned</h6>
+                                        <div class="pb-0 mt-0">
+                                            <div class="d-flex">
+                                                <h4 class="tx-20 fw-bold mb-1 text-white">{{StatusCount.statusDetail[0].tkReturn+0}}</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

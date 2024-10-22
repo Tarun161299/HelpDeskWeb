@@ -1,0 +1,87 @@
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">View PDf</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <div class="file-priview-container">
+            <ngx-extended-pdf-viewer [handTool]="false" [base64Src]="selectedFileB64" [height]="'60vh'"
+                [showHandToolButton]="true">
+            </ngx-extended-pdf-viewer>
+        </div>
+    </div>
+</ng-template>
+<div class="card-form shadow mt-4 pt-3 p-4 leftSideContent">
+    <div class="row">
+        <div class="col-sm-12">
+            <p class="fw-bold pb-1">
+                Comments
+            </p>
+            <form autocomplete="off" [formGroup]="commentSectionForm">
+                <div class="row g-3 mb-4">
+                    <div class="col-sm-11">
+                        <textarea class="form-control" id="commentSection" name="commentSection"
+                            formControlName="commentSection" rows="2" maxlength="500"
+                            placeholder="Enter Comment"></textarea>
+                    </div>
+                    <div class="col-sm-1">
+                        <button class="btn btn-primary ms-3" (click)="addComment()" title="Add Comment">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="file" class="form-control form-control-sm" formControlName="uploadFile"
+                            name="uploadFile" (change)="handleFileInput($event)" id="uploadFile" />
+                        <!-- <button type="button" class="btn btn-warning" id="btnFileUpload" value="Select File">
+                                <i class="fa fa-paperclip"></i>
+                            </button>
+                            <br>
+                            <span id="spnFilePath"></span>
+                            <input type="file" id="FileUpload1" style="display: none" />                     -->
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+        <div *ngIf="comments.length > 0" class="col-sm-12 border-1 border-bottom pb-3 mb-3">
+            <div class="ms-4" *ngFor="let user of comments">
+                <p class="fw-bold">{{user.createdBy}}
+                    <small class="fst-italic text-muted">
+                        {{user.createdDate | localTime}}
+                    </small>
+                    <!-- <a title="View Attachment" *ngIf="user.docContent.length>0" class="btn btn-warning btn-sm ms-2"
+                        (click)="viewattachment(user.docContent)">
+                        <i class="fa fa-paperclip"></i>
+                    </a> -->
+                    <a title="View Attachment" *ngIf="user.docContent!=null" class="btn btn-warning btn-sm ms-2"
+                        (click)="viewattachment(user.docContent)">
+                        <i class="fa fa-paperclip"></i>
+                    </a>
+                </p>
+
+                <p class="text-justify">
+                    {{user.remarks}}
+                </p>
+            </div>
+        </div>
+
+        <!-- <div class="col-sm-12 d-inline-flex border-1 border-bottom pb-3 mb-3">
+            <div class="ms-4">
+                <p class="fw-bold">Niyampal Singh,
+                    <small class="fst-italic text-muted">June 29, 2023 at 01:35 PM</small>
+                    <a title="View Attachment" class="btn btn-warning btn-sm ms-2">
+                        <i class="fa fa-paperclip"></i>
+                    </a>
+                </p>
+                <p class="text-justify">
+                    Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing
+                    industries for previewing layouts and visual mockups.Lorem ipsum is placeholder text commonly used
+                    in the graphic, print, and publishing
+                    industries for previewing layouts and visual mockups.
+                </p>
+            </div>
+        </div>  -->
+
+    </div>
+</div>

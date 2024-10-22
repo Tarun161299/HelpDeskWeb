@@ -1,0 +1,137 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card-form shadow mt-4 mb-4">
+                <div class="row">
+                    <div class="col-sm-6 border-end border-2 ps-5 p-2">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <p class="fw-bold text-center fs-5">
+                                    Login Here
+                                </p>
+                            </div>
+                        </div>
+                        <form class="row g-3" [formGroup]="loginMobileOTPForm">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold" for="userId">User Id </label>
+                                        <input class="form-control" type="text" id="userId" formControlName="userId" name="userId" placeholder="Enter User Id"
+                                        [ngClass]="{ 'is-invalid':(loginMobileOTPFormControl['userId'].errors && (loginMobileOTPFormControl['userId'].dirty || loginMobileOTPFormControl['userId'].touched || submitted  ))}" />
+                                        <span class="text-danger"
+                                        *ngIf="(loginMobileOTPFormControl['userId'].touched || submitted) && loginMobileOTPFormControl['userId'].errors?.['required']">
+                                        User Id is required
+                                    </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="mb-3">
+                                        <button class="btn btn-warning mt-4" [hidden]="btnSendOtpHideShow" [disabled]="btnDisable" (click)="sendMobileOtp('S')">
+                                            Send OTP
+                                        </button>
+                                        <div [hidden]="timmerShow">
+                                           Resend in  {{secondsLeft}} seconds
+                                        </div>
+                                        <button class="btn btn-warning mt-4" [hidden]="btnReSendOtpHideShow" (click)="reSendMobileOtp('RS')">
+                                            Resend Send OTP
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div [hidden]="showHideDiv">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold" for="otp">OTP</label>
+                                            <input class="form-control" type="text" id="otp" formControlName="otp" name="otp" [maxlength]="6"
+                                                placeholder="Enter OTP"
+                                                [ngClass]="{ 'is-invalid':(loginMobileOTPFormControl['otp'].errors && (loginMobileOTPFormControl['otp'].dirty || loginMobileOTPFormControl['otp'].touched || finalsubmitted  ))}" />
+                                            <span class="text-danger"
+                                                *ngIf="(loginMobileOTPFormControl['otp'].touched || finalsubmitted) && loginMobileOTPFormControl['otp'].errors?.['required']">
+                                                OTP is required
+                                            </span>
+                                        </div>                            
+                                    </div>                            
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold" for="securityPin">Security Pin <small class="text-primary">(case
+                                                    sensitive)</small> </label>
+                                            <input class="form-control" type="text" id="securityPin" formControlName="securityPin"
+                                                name="securityPin" placeholder="Enter securityPin"
+                                                [ngClass]="{ 'is-invalid':(loginMobileOTPFormControl['securityPin'].errors && (loginMobileOTPFormControl['securityPin'].dirty || loginMobileOTPFormControl['securityPin'].touched || finalsubmitted  ))}" />
+                                            <span class="text-danger"
+                                                *ngIf="(loginMobileOTPFormControl['securityPin'].touched || finalsubmitted) && loginMobileOTPFormControl['securityPin'].errors?.['required']">
+                                                Security Pin is required
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Security Pin</label>
+                                            <div class="d-inline">
+                                                <div class="CaptchaDiv">
+                                                    <div class="d-flex">
+                                                        <!-- <span class="bg-warning p-3 py-0 fs-4 rounded fw-bold" style="letter-spacing: 4px;">{{securitypin}}</span> -->
+                                                        <span class=" p-3 py-0 fs-4 rounded fw-bold" style="letter-spacing: 4px;">
+                                                            <img [src]="imageSource" alt="Image Source">
+                                                        </span>
+                                                        <button type="button" (click)="refreshCaptcha()" class="btn btn-outline-danger ms-4">
+                                                            <i class="fa fa-refresh"></i>
+                                                        </button>
+                                                    </div>
+                                                    <!-- <button class="btn btn-outline-danger btn-sm ms-2" (click)="refreshCaptcha()">
+                                                        <i class="fa fa-refresh fa-2x"></i>
+                                                    </button> -->
+                                                </div>
+                            
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 text-center mb-2">
+                            
+                                        <button class="btn btn-primary mt-4 ms-2" (click)="login()">
+                                            Login</button>
+                                        <!-- <a routerLink="/" class="btn btn-danger mt-4 ms-2">
+                                            Back to Home
+                                        </a> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-sm-6 logininstructionBg">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h4>
+                                    Instructions
+                                </h4>
+                                <ul class="list-unstyled">
+                                    <li>For ease of user onboarding , e-Counselling has now been integrated with NIC Single Sign-On Platform (ESI). Now, users will be authenticated through ESI(SSO).</li>
+                                    <li>Users can onboard themselves through OTP as well.</li>
+                                    <li>Confidentiality of Password is solely responsibility of the user and all care must be taken to protect the password.</li>
+                                    <li>Users are advised to keep changing the Password at frequent intervals.
+                                        Never share your password and do not respond to any mail which asks you for your Login-ID/Password.</li>
+                                    <li>It is strongly recommended that the OTP sent to the applicant for any activity like reset password etc. must not be shared with anyone.</li>
+                                    <li>For security reasons, after finishing your work, click the LOGOUT button and close all the windows related to your session.</li>
+                                </ul>
+                                <p>
+                                    <strong>Caution : </strong> Your IP address {{ipAddress}} is being monitored for security purpose.?
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
